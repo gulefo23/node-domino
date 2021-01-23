@@ -1,120 +1,146 @@
-const MongoClient = require('mongodb').MongoClient;
-const StaticHandler = require('../../staticHandler');
-const DatabaseHandler = require('../databaseHandler');
-
-const assert = require('assert');
-const url = require('url');
-class GameHandler {
+class GameLogic {
 
   constructor() {
-    this.staticHandler = new StaticHandler();
-    this.databaseHandler = new DatabaseHandler();
+    this.totalPieces = new Array();
+    this.piecesP1 = new Array();
+    this.piecesP2 = new Array();
+    this.player1Zone = document.getElementById('piecesPlayer1');
+    this.player2Zone = document.getElementById('piecesPlayer2');
+  }
+
+  async init() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+
+    await this.getAllPieces();
+    await this.handOutPieces();
+    await this.renderPieces();
+  }
+
+  getAllPieces() {
+
+    let path;
+    let numberOfPieces = 55;
+    let pieceFilename = '';
+
+    for(let i = 0; i <= numberOfPieces; i++) {
+      i.toString().length === 1 ? pieceFilename = `0${i}.png` : pieceFilename = `${i}.png`;
+      this.totalPieces.push(pieceFilename);
+    }
+
+    console.log(this.totalPieces);
+
+  }
+
+  handOutPieces() {
     
-    this.start = false;
-  }
-
-  async loadDatabase() {
-    return (new Promise((resolve, reject) => {
-      MongoClient.connect(this.ruta, (err, client) => {
-        assert.equal(null, err);
-
-        const dbConection = client.db(this.dbName);
-        resolve(dbConection);
-      });
-    }));
-  }
-
-  async getTotalPlayers() {
-    return (new Promise((resolve, reject) => {
-      this.db.collection('players').find({}).count((err, count) => {
-        resolve(count);
-      })
-    }));
-  }
-
-  async insertPlayer(username) {
-    return (new Promise((resolve, reject) => {
-      this.db.collection('players').insertOne({
-        "username": username
-      });
-    }));
-  }
-
-
-
-
-
-
-
-    let countPlayersOnDb = () => {
-      return new Promise((resolve, reject) => {
-        try {
-          
-          resolve();
-        } catch(err) {
-          reject(err);
-        }
-      })
+    for(let i = 0; i < 10; i++) {
+      let item = this.totalPieces[Math.floor(Math.random() * this.totalPieces.length)];
+      this.piecesP1.push(item);
     }
 
-    countPlayersOnDb().finally (() => {
-      assert.equal(err, null);
-    })
-    .catch(err => { console.log(err); });
-
-
-  }
-
-  startGame() {
-    return this.totalPlayers < 2 ? false : true;
-  }
-
-  startMatchmaking(req, res) {
-
-    let checkDbToCountPlayers = () => {
-      return new Promise((resolve, reject) => {
-        try {
-          this.countPlayers();
-          resolve();
-        } catch(err) {
-          reject(err);
-        }
-      })
+    for(let i = 0; i < 10; i++) {
+      let item = this.totalPieces[Math.floor(Math.random() * this.totalPieces.length)];
+      this.piecesP2.push(item);
     }
 
-    checkDbToCountPlayers()
-    .then(() => {
+    console.log(this.piecesP1);
+    console.log(this.piecesP2);
 
-      var query = url.parse(req.url, true).query;    
-      let totalPlayers = this.totalPlayers;
+  }
 
-      if(totalPlayers >= 0 && totalPlayers < 2) {
-        MongoClient.connect(this.ruta, (err, client) => {
-          assert.equal(null, err);
-          var db = client.db(this.dbName);
-          console.log("Connected...");
+  renderPieces() {
 
+    console.log(this.player1Zone);
+    console.log(this.player2Zone);
 
+    for(let i = 0; i < this.piecesP1.length; i++) {
+      let img = document.createElement('img');
+      img.src = `/public/img/fitxes/${this.piecesP1[i]}`;
+      img.style = 'width: 7%; padding: 10px 5px 10px 5px';
+      img.draggable = true;
+      img.id = `p1-${this.piecesP1[i]}`;
+      img.ondragstart = (e) => {
+        let imageId = `p1-${this.piecesP1[i]}`;
+        console.log('id : ' + imageId);
+        drag(e, imageId);
+      };
+      this.player1Zone.appendChild(img);
+    }
 
-          assert.equal(err, null);
-          console.log("Hello new Player!");
-          this.totalPlayers++;
-          this.staticHandler.serve(req, res, './public/waitingRoom.html');
-
-        });
-      } else {
-        console.log("This game can't handle more than two players.");
-      }
-
-      this.start = this.startGame();
-
-    })
-    .catch(err => console.log(err));
-
-    this.countPlayers();
+    for(let i = 0; i < this.piecesP2.length; i++) {
+      let img = document.createElement('img');
+      img.src = `/public/img/fitxes/${this.piecesP2[i]}`;
+      img.style = 'width: 7%; padding: 10px 5px 10px 5px';
+      img.draggable = true;
+      img.id = `p2-${this.piecesP2[i]}`;
+      img.ondragstart = (e) => {
+        let imageId = `p2-${this.piecesP2[i]}`;
+        console.log('id : ' + imageId);
+        drag(e, imageId);
+      };
+      img.setAttribute('onclick', 'dragg(this)');
+      this.player2Zone.appendChild(img);
+    }
 
   }
 
 }
 
-module.exports = GameHandler;
+
+function drag(e, imageId) {
+  console.log(e);
+
+  let gameZoneLeft = document.getElementById('leftContent');
+  let gameZoneRight = document.getElementById('rightContent');
+  let gameZoneCentral = document.getElementById('playedPieces');
+  let image = document.getElementById(imageId);
+  var newImg = document.createElement('img');
+
+  // LEFT
+  gameZoneLeft.addEventListener('dragenter', e => {
+    console.log('Drag enter');
+  })
+  gameZoneLeft.addEventListener('dragleave', e => {
+    console.log('Drag leave');
+  })
+  gameZoneLeft.addEventListener('dragover', e => {
+    e.preventDefault();
+    console.log('Drag over');
+  })
+  gameZoneLeft.addEventListener('drop', e => {
+    e.dataTransfer.items.length = 1;
+    newImg.src = `/public/img/fitxes/${image.id.substr(3,image.id.length)}`;
+    newImg.id = 'new' + image.id;
+    newImg.style = 'width: 7%; padding: 10px 5px 10px 5px';
+    gameZoneCentral.appendChild(newImg);
+    document.getElementById(image.id).remove();
+  })
+
+  // RIGHT
+  gameZoneRight.addEventListener('dragenter', e => {
+    console.log('Drag enter');
+  })
+  gameZoneRight.addEventListener('dragleave', e => {
+    console.log('Drag leave');
+  })
+  gameZoneRight.addEventListener('dragover', e => {
+    e.preventDefault();
+    console.log('Drag over');
+  })
+  gameZoneRight.addEventListener('drop', e => {
+    e.dataTransfer.items.length = 1;
+    newImg.src = `/public/img/fitxes/${image.id.substr(3,image.id.length)}`;
+    newImg.id = 'new' + image.id;
+    newImg.style = 'width: 7%; padding: 10px 5px 10px 5px';
+    gameZoneCentral.appendChild(newImg);
+    document.getElementById(image.id).remove();
+  })
+
+}
+
+window.addEventListener('load', () => {
+  const gameLogic = new GameLogic();
+  gameLogic.init();
+})

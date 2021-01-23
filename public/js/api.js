@@ -26,10 +26,11 @@ class Api {
       }
     };
     xhr.open('POST', this.endpoint + "/" + url);
-    xhr.send();
+    xhr.send(data);
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   window.api = new Api("http://localhost:5000/api");
+  console.log(window.api);
 });

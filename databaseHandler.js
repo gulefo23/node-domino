@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const StaticHandler = require('./staticHandler');
 const assert = require('assert');
 const url = require('url');
+const { resolve } = require('path');
 
 class DatabaseHandler {
 
@@ -18,6 +19,7 @@ class DatabaseHandler {
       assert.equal(null, err);
 
       this.db = client.db(this.dbName);
+      console.log('Connected to database ' + this.dbName);
     });
   }
 
@@ -36,6 +38,13 @@ class DatabaseHandler {
       });
       resolve();
     }));
+  }
+
+  async getUser(username) {
+    return (new Promise((resolve, reject) => {
+      this.db.collection('players').find({"username": username});
+    }))
+    resolve();
   }
 }
   

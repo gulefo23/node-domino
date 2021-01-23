@@ -1,14 +1,18 @@
 const http = require("http");
+const URL = require('url');
+const querystring = require('querystring');
 const StaticHandler = require('./staticHandler');
 const DatabaseHandler = require('./databaseHandler');
 
 const port = process.env.PORT || 5000;
+var urlObject;
 
 const staticHandler = new StaticHandler();
 const databaseHandler = new DatabaseHandler();
 
 http
   .createServer(async (req, res) => {
+    
     // Add Routes
     const url = req.url;
     console.log(url);
@@ -23,10 +27,21 @@ http
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(numPlayers));      
     }
-    else if(url.match(/^\/lobby/)) {
+    else if(url.match(/^\/api\/getUser/)) {
+      const user = await databaseHandler.getUser(urlObject.query.split('=')[1]);
+      console.log('User: ' + user);
+    }
+    else if(url.match(/^\/lobby[^]*/)) {
+      let getUsername = () => {
+        urlObject = URL.parse(req.url);
+      }
+      await getUsername();
       staticHandler.serve(req, res, './public/lobby.html');
     }
-    else if(url.match(/^\/game/)) {
+    else if(url.match(/^\/api\/insertPlayer/)) {
+      await databaseHandler.insertPlayer(urlObject.query.split('=')[1]);
+    }
+    else if(url.match(/^\/game[^]*/)) {
       staticHandler.serve(req, res, './public/game.html');
     }
     else {
