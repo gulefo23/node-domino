@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #20002c;
+    background: -webkit-linear-gradient(to right, #cbb4d4, #20002c); 
+    background: linear-gradient(to right, #cbb4d4, #20002c);
+
+
+}
+.content {
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.titleContainer {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.title {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 50px;
+}
+.subtitle {
+    color: rgb(255,255, 255);
+    font-size: 25px;
+}
+.formContainer {
+    width: 100%;
+    height: 100%;
+}
+.form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.usernameInput {
+    height: 35px;
+    width: 300px;
+    padding: 5px;
+    margin: 25px;
+    border-radius: 50px;
+    background-color: rgba(239, 117, 255, 0.5);
+    box-shadow: 0px 4px 10px 1px rgba(0,0,0, 0.3);
+    border: none;
+    border-bottom: 2px solid lightgray;
+    outline: none;
+    padding-left: 20px;
+    color: #FFF;
+}
+.submitButton {
+    height: 35px;
+    width: 200px;   
+    border: none;
+    background-color: darkcyan;
+    box-shadow: 0px 4px 10px 1px rgba(0,0,0, 0.3);
+    color: #FFF;
+    border-radius: 50px;
+    text-transform: uppercase;
+    outline: none;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    transition: 0.7s all;
+    background-color: rgba(0, 131, 92, 1);
+
+}
