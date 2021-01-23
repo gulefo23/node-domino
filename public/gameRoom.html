@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Domino Online</title>
-    <link href="/public/css/index.css" type="text/css" rel="stylesheet"/>
+    <link href="/public/css/gameRoom.css" type="text/css" rel="stylesheet"/>
     <!-- <script src="/public/js/Game.js"></script>
     <script src="/public/js/Lobby.js"></script> -->
 <!--     <script type="text/javascript" src="/public/js/scriptJoc.js"></script>
@@ -16,17 +16,31 @@
     <div class="container">
 
         <div class="content">
-            <div class="titleContainer">
-                <h1 class="title">Domino</h1>
-                <h3 class="subtitle">Guillem León Font</h3>
+            
+            <div class="left">
+                <div class="leftTitle">
+                    <h1>LEFT</h1>
+                </div>
+                <div class="leftContent"></div>
             </div>
-
-            <div class="formContainer">
-                <form action="" class="form">
-                    <input class="usernameInput" type="text" name="username">
-                    <button type="submit" onclick="startMatchmaking()" class="submitButton">Start Matchmaking</button>
-                </form>
+            <div class="center">
+                <div class="player1">
+                    <h1>Player 1 Pieces:</h1>
+                </div>
+                <div class="playedPieces">
+                    <h2>Played pieces</h2>
+                </div>
+                <div class="player2">
+                    <h1>Player 2 Pieces:</h1>
+                </div>
             </div>
+            <div class="right">
+                <div class="rightTitle">
+                    <h1>RIGHT</h1>
+                </div>
+                <div class="rightContent"></div>
+            </div>
+            
         </div>
 
     </div>

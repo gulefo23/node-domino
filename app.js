@@ -21,6 +21,8 @@ http
       staticHandler.serve(req, res);
     } else if(url.match(/^\/startMatchmaking/)) {
       gameHandler.startMatchmaking(req, res);
+    } else if(url.match(/^\/searchPlayer/)) {
+      loadGame.checkHowManyPlayers();
     }
     else {
       switch(url) {

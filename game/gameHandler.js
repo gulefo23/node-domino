@@ -14,9 +14,10 @@ class GameHandler {
     this.start = false;
     this.totalPlayers = 0;
 
+    this.countPlayers();
+
     console.log("INITIAL TOTAL PLAYERS VALUE: " + this.totalPlayers);
 
-    this.countPlayers();
   }
 
   getTotalPlayers() { 

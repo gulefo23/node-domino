@@ -12,10 +12,10 @@ class LoadGame {
 
     checkHowManyPlayers() {
 
-        document.getElementById("message").innerText = 'Searching for an opponent..'
-        this.idInterval = setInterval(function () {
+        this.idInterval = setInterval(() => {
         //amb aixo creem el JSON amb les dades del servidor
-        console.log("CRIDAAAAAAAAA");
+        console.log("LOLOLOLOOOOOOOOOOOOO");
+        console.log(this.totalPlayers);
         }, 2000);
        
     }
