@@ -40,11 +40,43 @@ class DatabaseHandler {
     }));
   }
 
-  async getUser(username) {
+  async insertHand(username, hand) {
     return (new Promise((resolve, reject) => {
-      this.db.collection('players').find({"username": username});
+      this.db.collection('hands').insertOne({
+        "username": username,
+        "hand": hand
+      })
+      resolve();
     }))
-    resolve();
+  }
+
+  async getHand(username) {
+    return (new Promise((resolve, reject) => {
+      try {
+        this.db.collection('hands').find({
+          "username": username
+        })
+        resolve();
+      } catch(err) {
+        reject(err);
+      }
+    }))    
+  }
+
+  async playPiece(id) {
+    return (new Promise((resolve, reject) => {
+      this.db.collection('status').insertOne({
+        "id": id
+      })
+      resolve();
+    }))
+  }
+
+  async getStatus() {
+    return (new Promise((resolve, reject) => {
+      this.db.collection('status').find();
+      resolve();
+    }))
   }
 }
   

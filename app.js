@@ -14,6 +14,7 @@ http
   .createServer(async (req, res) => {
     
     // Add Routes
+
     const url = req.url;
     console.log(url);
 
@@ -40,6 +41,19 @@ http
     }
     else if(url.match(/^\/api\/insertPlayer/)) {
       await databaseHandler.insertPlayer(urlObject.query.split('=')[1]);
+    }
+    else if(url.match(/^\/api\/insertHand/)) {
+      let hand = JSON.parse(req.headers.hands).pieces;
+      await databaseHandler.insertHand(urlObject.query.split('=')[1], hand);
+    }
+    else if(url.match(/^\/api\/getHand/)) {
+      await databaseHandler.getHand(urlObject.query.split('=')[1]);
+    }
+    else if(url.match(/^\/api\/playPiece/)) {
+      await databaseHandler.playPiece(id);
+    }
+    else if(url.match(/^\/api\/getStatus/)) {
+      await databaseHandler.getStatus()
     }
     else if(url.match(/^\/game[^]*/)) {
       staticHandler.serve(req, res, './public/game.html');

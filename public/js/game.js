@@ -6,6 +6,7 @@ class GameLogic {
     this.piecesP2 = new Array();
     this.player1Zone = document.getElementById('piecesPlayer1');
     this.player2Zone = document.getElementById('piecesPlayer2');
+    this.api = window.api;
   }
 
   async init() {
@@ -46,7 +47,13 @@ class GameLogic {
     }
 
     console.log(this.piecesP1);
+    this.api.post('insertHand', () => {
+      console.log('hello');
+    }, {"pieces": this.piecesP1})
     console.log(this.piecesP2);
+    this.api.post('insertHand', () => {
+      console.log('hello');
+    }, {"pieces": this.piecesP2})
 
   }
 
@@ -140,7 +147,7 @@ function drag(e, imageId) {
 
 }
 
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
   const gameLogic = new GameLogic();
   gameLogic.init();
 })
