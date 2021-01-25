@@ -40,6 +40,14 @@ class DatabaseHandler {
     }));
   }
 
+  async insertAllPieces(pieces) {
+    return (new Promise((resolve, reject) => {
+      this.db.collection('pieces').insertOne({
+        "pieces": pieces
+      })
+    }))
+  }
+
   async insertHand(username, hand) {
     return (new Promise((resolve, reject) => {
       this.db.collection('hands').insertOne({

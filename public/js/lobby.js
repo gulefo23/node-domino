@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const urlParams = new URLSearchParams(window.location.search);
   const username = urlParams.get('username');
+  const totalPieces = new Array();
 
   api.get('numPlayers', (response) => {
     const numPlayers = response;
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const numPlayers = response;
       
           if(numPlayers >= 2) {
+            loadPieces();
             document.getElementById('message').innerText = 'Oponent found!';
             clearInterval(interval);
             window.location = `/game?username=${username}`;
@@ -30,5 +32,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 2000);
     }
   });
+  
+  function loadPieces() {
+
+      let numberOfPieces = 55;
+      let pieceFilename = '';
+  
+      for(let i = 0; i <= numberOfPieces; i++) {
+        i.toString().length === 1 ? pieceFilename = `0${i}.png` : pieceFilename = `${i}.png`;
+        totalPieces.push(pieceFilename);
+      }
+  
+      api.post('insertAllPieces', () => {
+        console.log('Loading all pieces...');
+      }, totalPieces)
+
+      console.log(totalPieces);
+
+  }
   
 });

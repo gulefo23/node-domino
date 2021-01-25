@@ -49,11 +49,7 @@ class GameLogic {
     console.log(this.piecesP1);
     this.api.post('insertHand', () => {
       console.log('hello');
-    }, {"pieces": this.piecesP1})
-    console.log(this.piecesP2);
-    this.api.post('insertHand', () => {
-      console.log('hello');
-    }, {"pieces": this.piecesP2})
+    }, {"hand": this.piecesP1})
 
   }
 

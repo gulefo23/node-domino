@@ -5,6 +5,7 @@ const StaticHandler = require('./staticHandler');
 const DatabaseHandler = require('./databaseHandler');
 
 const port = process.env.PORT || 5000;
+const limit = 1;
 var urlObject;
 
 const staticHandler = new StaticHandler();
@@ -38,12 +39,20 @@ http
       }
       await getUsername();
       staticHandler.serve(req, res, './public/lobby.html');
+    } 
+    else if(url.match(/^\/api\/insertAllPieces/)) {
+      let pieces = JSON.parse(req.headers.data);
+      console.log(pieces);
+      if(limit === 1) {
+        await databaseHandler.insertAllPieces(pieces);
+        limit++;
+      }
     }
     else if(url.match(/^\/api\/insertPlayer/)) {
       await databaseHandler.insertPlayer(urlObject.query.split('=')[1]);
     }
     else if(url.match(/^\/api\/insertHand/)) {
-      let hand = JSON.parse(req.headers.hands).pieces;
+      let hand = JSON.parse(req.headers.data).pieces;
       await databaseHandler.insertHand(urlObject.query.split('=')[1], hand);
     }
     else if(url.match(/^\/api\/getHand/)) {

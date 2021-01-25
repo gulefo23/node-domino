@@ -19,7 +19,7 @@ class Api {
   post(url, callback, data) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', this.endpoint + "/" + url);
-    xhr.setRequestHeader('hands', JSON.stringify(data));
+    xhr.setRequestHeader('data', JSON.stringify(data));
     xhr.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var response = JSON.parse(this.responseText);
