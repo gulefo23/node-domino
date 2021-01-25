@@ -42,7 +42,6 @@ http
     } 
     else if(url.match(/^\/api\/insertAllPieces/)) {
       let pieces = JSON.parse(req.headers.data);
-      console.log(pieces);
       if(limit === 1) {
         await databaseHandler.insertAllPieces(pieces);
         limit++;
@@ -52,11 +51,14 @@ http
       await databaseHandler.insertPlayer(urlObject.query.split('=')[1]);
     }
     else if(url.match(/^\/api\/insertHand/)) {
-      let hand = JSON.parse(req.headers.data).pieces;
-      await databaseHandler.insertHand(urlObject.query.split('=')[1], hand);
+      let hand = JSON.parse(req.headers.data).hand;
+      await databaseHandler.insertHand(hand);
     }
-    else if(url.match(/^\/api\/getHand/)) {
-      await databaseHandler.getHand(urlObject.query.split('=')[1]);
+    else if(url.match(/^\/api\/getHand1/)) {
+      await databaseHandler.getHand1();
+    }
+    else if(url.match(/^\/api\/getHand2/)) {
+      await databaseHandler.getHand2();
     }
     else if(url.match(/^\/api\/playPiece/)) {
       await databaseHandler.playPiece(id);

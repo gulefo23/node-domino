@@ -48,7 +48,7 @@ class DatabaseHandler {
     }))
   }
 
-  async insertHand(username, hand) {
+  async insertHand(hand) {
     return (new Promise((resolve, reject) => {
       this.db.collection('hands').insertOne({
         "username": username,
@@ -58,17 +58,26 @@ class DatabaseHandler {
     }))
   }
 
-  async getHand(username) {
+  async getHand1() {
     return (new Promise((resolve, reject) => {
       try {
-        this.db.collection('hands').find({
-          "username": username
-        })
+        this.db.collection('hands').find({}).limit(1).skip()
         resolve();
       } catch(err) {
         reject(err);
       }
     }))    
+  }
+
+  async getHand2() {
+    return (new Promise((resolve, reject) => {
+      try {
+        this.db.collection('hands').find({}).limit(2).skip(1)
+        resolve();
+      } catch(err) {
+        reject(err);
+      }
+    }))
   }
 
   async playPiece(id) {
