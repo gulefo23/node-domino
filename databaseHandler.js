@@ -51,7 +51,6 @@ class DatabaseHandler {
   async insertHand(hand) {
     return (new Promise((resolve, reject) => {
       this.db.collection('hands').insertOne({
-        "username": username,
         "hand": hand
       })
       resolve();
@@ -61,7 +60,7 @@ class DatabaseHandler {
   async getHand1() {
     return (new Promise((resolve, reject) => {
       try {
-        this.db.collection('hands').find({}).limit(1).skip()
+        this.db.collection('hands').find({}).limit(1);
         resolve();
       } catch(err) {
         reject(err);
@@ -72,7 +71,7 @@ class DatabaseHandler {
   async getHand2() {
     return (new Promise((resolve, reject) => {
       try {
-        this.db.collection('hands').find({}).limit(2).skip(1)
+        this.db.collection('hands').find({}).limit(1).skip(1);
         resolve();
       } catch(err) {
         reject(err);

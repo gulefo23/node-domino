@@ -1,4 +1,4 @@
-class GameLogic {
+class LoadGame {
 
     constructor() {
       this.totalPieces = new Array();
@@ -35,8 +35,6 @@ class GameLogic {
         this.pieces.push(item);
       }
   
-      console.log(this.pieces);
-
       this.api.post('insertHand', () => {
         console.log('hand inserted.');
       }, {
@@ -48,6 +46,6 @@ class GameLogic {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  const gameLogic = new GameLogic();
-  gameLogic.init();
+  const loadGame = new LoadGame();
+  loadGame.init();
 })

@@ -2,8 +2,8 @@ class GameLogic {
 
   constructor() {
     this.totalPieces = new Array();
-    this.piecesP1 = new Array();
-    this.piecesP2 = new Array();
+    this.piecesP1 = undefined;
+    this.piecesP2 = undefined;
     this.player1Zone = document.getElementById('piecesPlayer1');
     this.player2Zone = document.getElementById('piecesPlayer2');
     this.api = window.api;
@@ -14,41 +14,18 @@ class GameLogic {
     const urlParams = new URLSearchParams(window.location.search);
     const username = urlParams.get('username');
 
-    //await this.getAllPieces();
+    await this.getPieces();
     //await this.renderPieces();
   }
 
-  getAllPieces() {
+  getPieces() {
 
-    let path;
-    let numberOfPieces = 55;
-    let pieceFilename = '';
-
-    for(let i = 0; i <= numberOfPieces; i++) {
-      i.toString().length === 1 ? pieceFilename = `0${i}.png` : pieceFilename = `${i}.png`;
-      this.totalPieces.push(pieceFilename);
-    }
-
-    console.log(this.totalPieces);
-
-  }
-
-  handOutPieces() {
-    
-    for(let i = 0; i < 10; i++) {
-      let item = this.totalPieces[Math.floor(Math.random() * this.totalPieces.length)];
-      this.piecesP1.push(item);
-    }
-
-    for(let i = 0; i < 10; i++) {
-      let item = this.totalPieces[Math.floor(Math.random() * this.totalPieces.length)];
-      this.piecesP2.push(item);
-    }
-
-    console.log(this.piecesP1);
-    this.api.post('insertHand', () => {
-      console.log('hello');
-    }, {"hand": this.piecesP1})
+    console.log('getting pieces');
+    this.api.get('getFirstHand', function(response) {
+      console.log('data...');
+      let data = response;
+      console.log(data);
+    });
 
   }
 

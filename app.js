@@ -21,17 +21,22 @@ http
 
     if (url.match(/^\/public/)) {
       staticHandler.serve(req, res);
+      console.log('1');
     }
     else if(url.match(/^\/api\/numPlayers/)) {
       const numPlayers = await databaseHandler.getTotalPlayers();
       console.log("Num Players: ");
       console.log(numPlayers);
       res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify(numPlayers));      
+      res.end(JSON.stringify(numPlayers));   
+      console.log('2');
+   
     }
     else if(url.match(/^\/api\/getUser/)) {
       const user = await databaseHandler.getUser(urlObject.query.split('=')[1]);
       console.log('User: ' + user);
+      console.log('3');
+
     }
     else if(url.match(/^\/lobby[^]*/)) {
       let getUsername = () => {
@@ -39,6 +44,8 @@ http
       }
       await getUsername();
       staticHandler.serve(req, res, './public/lobby.html');
+      console.log('4');
+
     } 
     else if(url.match(/^\/api\/insertAllPieces/)) {
       let pieces = JSON.parse(req.headers.data);
@@ -46,19 +53,30 @@ http
         await databaseHandler.insertAllPieces(pieces);
         limit++;
       }
+      console.log('5');
+
     }
     else if(url.match(/^\/api\/insertPlayer/)) {
       await databaseHandler.insertPlayer(urlObject.query.split('=')[1]);
+      console.log('6');
+
     }
     else if(url.match(/^\/api\/insertHand/)) {
       let hand = JSON.parse(req.headers.data).hand;
       await databaseHandler.insertHand(hand);
+      console.log('7');
+
     }
-    else if(url.match(/^\/api\/getHand1/)) {
+    else if(url === '/api/getFirstHand') {
+      console.log('getting data...');
       await databaseHandler.getHand1();
+      console.log('8');
+
     }
-    else if(url.match(/^\/api\/getHand2/)) {
+    else if(url.match(/^\/api\/getSecondHand/)) {
       await databaseHandler.getHand2();
+      console.log('9');
+
     }
     else if(url.match(/^\/api\/playPiece/)) {
       await databaseHandler.playPiece(id);
